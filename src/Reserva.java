@@ -9,8 +9,10 @@ public class Reserva {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public Reserva(Integer number, Date checkIn, Date checkOut) {
-	
+	public Reserva(Integer number, Date checkIn, Date checkOut) throws Excessoes {
+		if(!checkOut.after(checkIn)) {
+			throw new Excessoes("Error na data de checkout");
+		} 
 		this.number = number;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -43,18 +45,18 @@ public class Reserva {
 		long diff = checkOut.getTime() - checkIn.getTime(); // o getTime pega o valor em milisegundos
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);//conversão de milisegundos para dias pelo tipo enum TimeUnit
 	}
-	public String atualizarDias(Date checkIn, Date checkOut) {
+	public void atualizarDias(Date checkIn, Date checkOut) throws Excessoes {
 		Date agora = new Date();
 		
 		if(checkOut.before(agora) || checkIn.before(agora)) {
-			return "ERROR: a data de check in ou a de check out é antiga";
+			throw new Excessoes("ERROR: a data de check in ou a de check out é antiga");
 		}
 		if(!checkOut.after(checkIn)) {
-			return "Error na data de checkout";
+			throw new Excessoes("Error na data de checkout");
 		}
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		return null;
+		
 	}
 
 	@Override
