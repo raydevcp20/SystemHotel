@@ -28,15 +28,13 @@ public class MainClass {
 			System.out.println("entre com a data de CheckOut(DD/MM/YYYY): ");
 			co = sdf.parse(sc.next());
 			
-			Date agora = new Date();
-					
-			if(co.before(agora) || ci.before(agora)) {
-				System.out.println("ERROR: a data de check in ou a de check out é antiga");
-			}if (!co.after(ci)) {
-				System.out.println("Error na data de checkout");
+			String error = rs.atualizarDias(ci, co);
+			if(error == null) {
+				System.out.println("Reserva: "+ rs);
 			}else {
-			rs.atualizarDias(ci, co);
-			System.out.println("Reserva: "+ rs);}
+				System.out.println(error);
+			}
+			
 		}
 		
 		
